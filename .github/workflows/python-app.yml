@@ -8,36 +8,31 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        python-version: ["3.10", "3.11"]
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-    - name: Install dependencies
-      run: |
-        pip install matplotlib numpy SciencePlots
+      - name: Install dependencies
+        run: pip install matplotlib numpy SciencePlots
 
-    - name: Test import
-      run: python -c "from journal_style import journal_style"
+      - name: Test import
+        run: python -c "from journal_style import journal_style"
 
-    - name: Smoke test plot
-      run: |
-        python - <<EOF
-        import numpy as np
-        import matplotlib.pyplot as plt
-        from journal_style import journal_style
+      - name: Smoke test plot
+        run: |
+          python - <<EOF
+          import numpy as np
+          import matplotlib.pyplot as plt
+          from journal_style import journal_style
 
-        x = np.linspace(0, 1, 50)
+          x = np.linspace(0, 1, 50)
 
-        with journal_style("nature"):
-            plt.plot(x, x)
+          with journal_style("nature"):
+              plt.plot(x, x)
 
-        print("Plot test OK")
-        EOF
+          print("Plot test OK")
+          EOF
+
